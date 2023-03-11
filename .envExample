@@ -1,0 +1,5 @@
+REACT_APP_HOST_NAME="localhost"
+REACT_APP_DATABASE_NAME="woltora"
+REACT_APP_DATABASE_USER="root"
+REACT_APP_DATABASE_PASSWORD="your password here"
+REACT_APP_JWT_SECRET='add something here'
