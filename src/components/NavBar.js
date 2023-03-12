@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import CartList from "@/components/CartList";
 
 export default function NavBar({ cartItemCount, onCartItemCountChange }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCartHovered, setIsCartHovered] = useState(false);
 
   useEffect(() => {
     const isLoggedInLocalStorage = localStorage.getItem("isLoggedIn");
@@ -34,17 +36,30 @@ export default function NavBar({ cartItemCount, onCartItemCountChange }) {
       <Link href="/">
         <p className="text-3xl">Woltora</p>
       </Link>
-      <div className="absolute right-0 pr-4">
+
+      <div className="absolute right-0 pr-4 flex items-center">
+        <div
+          onMouseEnter={() => setIsCartHovered(true)}
+          onMouseLeave={() => setIsCartHovered(false)}
+          className="mr-10"
+        >
+          <button className=" relative ">
+            <Link href="/cart">
+              <FaShoppingCart className="text-2xl mt-1" />
+            </Link>
+            <div className="bg-red-500 text-white rounded-full w-5 h-5 flex justify-center items-center absolute top-0 right-0 -mt-2 -mr-5">
+              {cartItemCount}
+            </div>
+          </button>
+          {isCartHovered && (
+            <div className="bg-white rounded-lg shadow-lg absolute top-full  right-5 -mt-1 z-50">
+              <CartList onCartItemCountChange={onCartItemCountChange} />
+            </div>
+          )}
+        </div>
+
         {isLoggedIn ? (
           <>
-            <Link className="mr-9" href="/cart">
-              <button className="pr-4 relative">
-                <FaShoppingCart className="text-2xl" />
-                <div className="bg-red-500 text-white rounded-full w-5 h-5 flex justify-center items-center absolute top-0 right-0 -mt-1 -mr-1">
-                  {cartItemCount}
-                </div>
-              </button>
-            </Link>
             <button className="pr-4" onClick={handleLogout}>
               Logout
             </button>
