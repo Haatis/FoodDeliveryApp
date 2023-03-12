@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import moment from "moment";
 
 export default function CartPage({ onCartItemCountChange }) {
   const [cartItemsArray, setCartItemsArray] = useState([]);
@@ -24,9 +26,41 @@ export default function CartPage({ onCartItemCountChange }) {
     onCartItemCountChange(itemCount);
   };
 
+  const order = () => {
+    alert("Tilaus lähetetty! Tarkastele tilaustasi profiilistasi.");
+    const restaurantName = cartItemsArray[0].RestaurantName;
+    const total = cartItemsArray.reduce((total, item) => {
+      return total + item.MenuPrice * item.quantity;
+    }, 0);
+    const Datetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    const orderItems = cartItemsArray.map((item) => item.MenuName).join(", ");
+    const UserID = localStorage.getItem("UserID");
+    const orderData = {
+      Datetime,
+      orderItems,
+      total,
+      UserID,
+      restaurantName,
+    };
+
+    axios
+      .post("/api/sendOrder", orderData)
+      .then((response) => {
+        localStorage.removeItem("cartItems");
+        setCartItemsArray([]);
+        onCartItemCountChange(0);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-3xl font-bold mt-8 mb-4">Ostoskori</h1>
+      {cartItemsArray.length === 0 && (
+        <p className="text-xl">Ostoskorisi on tyhjä</p>
+      )}
       {cartItemsArray.map((item) => (
         <div
           key={item.MenuID}
@@ -44,6 +78,14 @@ export default function CartPage({ onCartItemCountChange }) {
           </button>
         </div>
       ))}
+      {cartItemsArray.length > 0 && (
+        <button
+          onClick={() => order()}
+          className="bg-green-500 text-white rounded-md px-2 py-1 mt-2"
+        >
+          Tilaa
+        </button>
+      )}
     </div>
   );
 }

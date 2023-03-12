@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import CartList from "@/components/CartList";
 
 export default function NavBar({ cartItemCount, onCartItemCountChange }) {
@@ -51,7 +52,7 @@ export default function NavBar({ cartItemCount, onCartItemCountChange }) {
               {cartItemCount}
             </div>
           </button>
-          {isCartHovered && (
+          {isCartHovered && cartItemCount > 0 && (
             <div className="bg-white rounded-lg shadow-lg absolute top-full  right-5 -mt-1 z-50">
               <CartList onCartItemCountChange={onCartItemCountChange} />
             </div>
@@ -60,6 +61,9 @@ export default function NavBar({ cartItemCount, onCartItemCountChange }) {
 
         {isLoggedIn ? (
           <>
+            <Link href="/profile">
+              <FaUser className="text-2xl mr-10" />
+            </Link>
             <button className="pr-4" onClick={handleLogout}>
               Logout
             </button>

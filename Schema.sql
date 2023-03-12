@@ -35,6 +35,18 @@ CREATE TABLE users (
     PRIMARY KEY (UserID)
 );
 
+CREATE TABLE orders (
+    OrderID INT NOT NULL AUTO_INCREMENT,
+    OrderDate DATETIME NOT NULL,
+    OrderTotal DECIMAL(10,2) NOT NULL,
+    OrderItems VARCHAR(255) NOT NULL,
+    RestaurantName VARCHAR(255) NOT NULL,
+    UserID INT NOT NULL,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (UserID) REFERENCES users(UserID)
+    
+);
+
 INSERT INTO Cities (CityName, CityImage)
 VALUES 
     ('Helsinki', 'Helsinki.jpg'), 

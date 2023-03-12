@@ -17,14 +17,16 @@ export default function Login() {
     try {
       if (isLoginForm) {
         const response = await axios.post("/api/login", { email, password });
-        console.log(response.data);
+
         // Handle successful login
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("isLoggedIn", true); // set isLoggedIn to true
+        localStorage.setItem("UserID", response.data.userID);
+
+        // Redirect to home page
         window.location.href = "/";
       } else {
         const response = await axios.post("/api/register", { email, password });
-        console.log(response.data);
         // Handle successful registration
         setIsLoginForm(true); // switch back to login form
         setErrorMessage("Registration successful! Please log in to continue.");

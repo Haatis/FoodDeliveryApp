@@ -51,6 +51,20 @@ export default function RestaurantPage({ onCartItemCountChange }) {
     onCartItemCountChange(itemCount);
   };
 
+  useEffect(() => {
+    const cartItemsArray = Object.values(cartItems);
+    if (cartItemsArray.length > 0) {
+      if (cartItemsArray[0].RestaurantName !== restaurant) {
+        alert(
+          "Voit tilata vain yhdestä ravintolasta kerrallaan. Ostoskori tyhjennetty."
+        );
+        setCartItems({});
+        localStorage.removeItem("cartItems");
+        onCartItemCountChange(0);
+      }
+    }
+  }, [restaurant, cartItems]);
+
   return (
     <div className="xl:w-3/5 mx-auto text-center">
       <h1 className="text-3xl font-bold">{restaurant}</h1>

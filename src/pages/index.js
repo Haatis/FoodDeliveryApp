@@ -8,7 +8,6 @@ export default function Home() {
   const fetchCities = async () => {
     const response = await axios.get("/api/getData");
     setCities(response.data);
-    console.log(response.data);
   };
   useEffect(() => {
     fetchCities();

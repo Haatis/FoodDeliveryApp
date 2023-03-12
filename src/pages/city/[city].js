@@ -12,7 +12,6 @@ export default function CityPage() {
   const fetchRestaurantData = async () => {
     const response = await axios.get(`/api/getRestaurants?city=${city}`);
     setRestaurantData(response.data);
-    console.log(response.data);
   };
 
   useEffect(() => {

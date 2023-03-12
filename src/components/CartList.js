@@ -9,7 +9,6 @@ export default function CartList({ onCartItemCountChange }) {
       const cartItems = JSON.parse(storedCartItems);
       const array = Object.values(cartItems);
       setCartItemsArray(array);
-      console.log(array);
     }
   }, []);
 
